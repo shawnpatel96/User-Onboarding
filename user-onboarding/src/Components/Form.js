@@ -2,6 +2,35 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import styled from "styled-components"
+
+const FormStyle = styled.div`
+width:75%;
+margin-left:15%;
+font-family: Georgia, serif;
+font-size: 19px;
+
+color: white;
+font-weight: normal;
+text-decoration: none;
+font-style: normal;
+font-variant: normal;
+text-transform: none;
+border: 5px outset #1C6EA4;
+border-radius: 40px 40px 40px 40px;
+
+
+`
+
+const UnorderedList=styled.ul`
+-webkit-box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0); 
+box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px, 5px 5px 15px 5px rgba(0,0,0,0);
+width:50%;
+margin-left:25%;
+margin-top:2%;
+
+
+`
 
 
 const UserForm = ({ values, errors, touched, status })=>{
@@ -15,7 +44,7 @@ const UserForm = ({ values, errors, touched, status })=>{
         status && setUsers(users=>[...users, status]);
     }, [status]);
     return (
-        <div>
+        <FormStyle>
             <Form>
 
                 <label htmlFor="name">
@@ -41,13 +70,20 @@ const UserForm = ({ values, errors, touched, status })=>{
                     <p>{errors.password}</p>
                     )}
                 </label>
+                <label htmlFor="birth">
+                    Birth Date: 
+                    <Field id="birth" type="text" name="birth" placeholder="enter birth here"/>
+                    {touched.birth && errors.birth && (
+                    <p>{errors.birth}</p>
+                    )}
+                </label>
 
                 <Field as="select" className="" name="salary">
-                    <option>Choose your expected salary</option>
-                    <option value="$80,000">$80,000</option>
-                    <option value="$100,000">$100,000</option>
-                    <option value="$500,000">$500,000</option>
-                    <option value="$1,000,000">$1,000,000</option>
+                    <option>Role</option>
+                    <option value="Back-End">Back-End</option>
+                    <option value="Front-End">Front-End</option>
+                    <option value="Full-Stacks">Full-Stacks</option>
+                    <option value="Not Full-Stacks">Not Full-Stacks</option>
                 </Field>
 
                 
@@ -64,15 +100,16 @@ const UserForm = ({ values, errors, touched, status })=>{
                 {users.map(user=>{
                     return (
 
-                        <ul key={user.id}>
-                            <li>Name: {user.name}</li>
+                        <UnorderedList  key={user.id}>
+                            <un>Name: {user.name}</un>
                             <li>Email: {user.email}</li>
                             <li>Password: {user.password}</li>
+                            <li>Birth Date: {user.birth}</li>
                             <li>Salary:{user.salary}</li>
-                        </ul>
+                        </UnorderedList>
                     );
                 })}
-        </div>
+        </FormStyle>
     );
 };
 
@@ -82,6 +119,7 @@ const FormikUserForm = withFormik({
             name: props.name || "",
             email: props.email || "",
             password: props.password || "",
+            birth: props.birth || "",
             terms: props.terms || false,
             qualities: props.qualities || ""
          };
@@ -89,7 +127,8 @@ const FormikUserForm = withFormik({
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Name is Required"),
         email: Yup.string().required("Email is Required"),
-        password: Yup.string().required("Password is Required")
+        password: Yup.string().required("Password is Required"),
+        birth : Yup.string().required("Birth Date is Required")
     }),
     handleSubmit(values, {setStatus, resetForm}){
         console.log('submitting', values);
@@ -105,3 +144,7 @@ const FormikUserForm = withFormik({
 })(UserForm);
 
 export default FormikUserForm;
+
+
+
+

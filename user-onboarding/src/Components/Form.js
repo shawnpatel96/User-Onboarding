@@ -77,6 +77,17 @@ const UserForm = ({ values, errors, touched, status })=>{
                     <p>{errors.birth}</p>
                     )}
                 </label>
+                
+                <Field as="select" className="" name="sign">
+                    <option>What's your Zodiac Sign</option>
+                    <option value="sign">Capricorn</option>
+                    <option value="sign">Aquarius</option>
+                    <option value="sign">Pisces</option>
+                    <option value="sign">Scorpio</option>
+                </Field>
+               
+              
+              
 
                 <Field as="select" className="" name="salary">
                     <option>Role</option>
@@ -105,6 +116,7 @@ const UserForm = ({ values, errors, touched, status })=>{
                             <li>Email: {user.email}</li>
                             <li>Password: {user.password}</li>
                             <li>Birth Date: {user.birth}</li>
+                            <li>Zodiac Sign: {user.sign}</li>
                             <li>Salary:{user.salary}</li>
                         </UnorderedList>
                     );
@@ -120,6 +132,7 @@ const FormikUserForm = withFormik({
             email: props.email || "",
             password: props.password || "",
             birth: props.birth || "",
+            ZodiacSign: props.sign || "",
             terms: props.terms || false,
             qualities: props.qualities || ""
          };
@@ -128,7 +141,8 @@ const FormikUserForm = withFormik({
         name: Yup.string().required("Name is Required"),
         email: Yup.string().required("Email is Required"),
         password: Yup.string().required("Password is Required"),
-        birth : Yup.string().required("Birth Date is Required")
+        birth : Yup.string().required("Birth Date is Required"),
+        
     }),
     handleSubmit(values, {setStatus, resetForm}){
         console.log('submitting', values);
